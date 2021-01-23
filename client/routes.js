@@ -3,14 +3,15 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
-import {me} from './store'
+import {me, fetchRecentlyPlayed} from './store'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
+    await this.props.loadRecentlyPlayed(this.props.spotifyToken)
   }
 
   render() {
@@ -27,7 +28,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
           </Switch>
         )}
-        {/* Displays our Login component as a fallback */}
+        {/* Displays our component as a fallback */}
         <Route component={Login} />
       </Switch>
     )
@@ -41,15 +42,16 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    spotifyToken: state.user.spotifyToken
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadInitialData() {
-      dispatch(me())
-    }
+    loadInitialData: () => dispatch(me()),
+    loadRecentlyPlayed: spotifyToken =>
+      dispatch(fetchRecentlyPlayed(spotifyToken))
   }
 }
 

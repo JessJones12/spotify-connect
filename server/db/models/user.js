@@ -24,7 +24,22 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  googleId: {
+  spotifyId: {
+    type: Sequelize.STRING
+  },
+  spotifyUsername: {
+    type: Sequelize.STRING
+  },
+  spotifyProfileUrl: {
+    type: Sequelize.STRING
+  },
+  spotifyToken: {
+    type: Sequelize.STRING
+  },
+  spotifyRefreshToken: {
+    type: Sequelize.STRING
+  },
+  spotifyHref: {
     type: Sequelize.STRING
   }
 })
