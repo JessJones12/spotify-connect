@@ -1,43 +1,80 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import spotify from '../store/spotify'
+import {Card, CardColumns, CardDeck, Container, Row, Col} from 'react-bootstrap'
+import {me, fetchRecentlyPlayed, fetchRecommendations} from '../store'
 
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  const {
-    email,
-    spotifyUsername,
-    spotifyId,
-    spotifyProfileUrl,
-    spotifyToken,
-    spotifyHref
-  } = props.user
+class UserHome extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-      <h3>{spotifyUsername}</h3>
-      <h3>{spotifyId}</h3>
-      <h3>{spotifyProfileUrl}</h3>
-      <h3>{spotifyToken}</h3>
-      <h3>{spotifyHref}</h3>
-      {props.spotify.recentlyPlayed.items.map(item => {
-        return (
-          <div key={item.played_at}>
-            <img src={item.track.album.images[0].url} />
-            <audio controls>
-              <source src={item.track.preview_url} type="audio/ogg" />
-              <source src={item.track.preview_url} type="audio/mpeg" />
-              Your browser does not support the audio tag.
-            </audio>
-          </div>
-        )
-      })}
-    </div>
-  )
+  async componentDidMount() {
+    await this.props.loadInitialData()
+    await this.props.loadRecentlyPlayed()
+    await this.props.loadRecommendations()
+  }
+
+  render() {
+    const {
+      email,
+      spotifyUsername,
+      spotifyProfileUrl,
+      spotifyHref
+    } = this.props.user
+
+    return (
+      <Container fluid>
+        <Row className="justify-content-md-center">
+          <h3>Welcome, {spotifyUsername}</h3>
+        </Row>
+        <Row className="justify-content-md-center">
+          <h3>Check out your recently played songs!</h3>
+        </Row>
+
+        <Row className="justify-content-md-center ">
+          {this.props.spotify.recentlyPlayed.items.map(item => {
+            const date = new Date(item.played_at).toLocaleString('en-US')
+
+            return (
+              <Col
+                xs="auto"
+                sm="auto"
+                md="auto"
+                lg="auto"
+                xl="auto"
+                key={item.played_at}
+                style={{padding: '15px'}}
+              >
+                <Card style={{maxWidth: '25rem'}}>
+                  <Card.Header>{item.track.artists[0].name}</Card.Header>
+                  <Card.Img
+                    variant="top"
+                    src={item.track.album.images[0].url}
+                  />
+                  <Card.Body>
+                    <Card.Title>{item.track.album.name}</Card.Title>
+                    <Card.Text>{item.track.name}</Card.Text>
+                    <audio controls>
+                      <source src={item.track.preview_url} type="audio/ogg" />
+                      <source src={item.track.preview_url} type="audio/mpeg" />
+                      Your browser does not support the audio tag.
+                    </audio>
+                  </Card.Body>
+                  <Card.Footer>
+                    <small className="text-muted">Listened to on {date}</small>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            )
+          })}
+        </Row>
+      </Container>
+    )
+  }
 }
 
 /**
@@ -46,11 +83,20 @@ export const UserHome = props => {
 const mapState = state => {
   return {
     user: state.user,
-    spotify: state.spotify
+    spotify: state.spotify,
+    spotifyToken: state.user.spotifyToken
   }
 }
 
-export default connect(mapState)(UserHome)
+const mapDispatch = dispatch => {
+  return {
+    loadInitialData: () => dispatch(me()),
+    loadRecentlyPlayed: () => dispatch(fetchRecentlyPlayed()),
+    loadRecommendations: () => fetchRecommendations()
+  }
+}
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

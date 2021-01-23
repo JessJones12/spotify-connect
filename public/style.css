@@ -1,21 +1,13 @@
-body {
-  font-family: sans-serif;
-}
-
-a {
-  text-decoration: none;
+audio {
+  width: 100%;
 }
 
 label {
   display: block;
+  font: 1rem 'Fira Sans', sans-serif;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
-}
-
-form div {
-  margin: 1em;
-  display: inline-block;
+input,
+label {
+  margin: 0.4rem 0;
 }
