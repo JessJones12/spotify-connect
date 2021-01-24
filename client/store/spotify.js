@@ -6,13 +6,14 @@ import history from '../history'
  */
 const GET_RECENTLY_PLAYED = 'GET_RECENTLY_PLAYED'
 const GET_RECOMMENDATIONS = 'GET_RECOMMENDATIONS'
+const REMOVE_RECOMMENDATIONS = 'REMOVE_RECOMMENDATIONS'
 
 /**
  * INITIAL STATE
  */
 const defaultSpotify = {
   recentlyPlayed: {items: []},
-  selectedTrack: {}
+  songsRecommended: []
 }
 
 /**
@@ -22,9 +23,20 @@ const getRecentlyPlayed = data => ({type: GET_RECENTLY_PLAYED, data})
 
 const getRecommendations = data => ({type: GET_RECOMMENDATIONS, data})
 
+const removeRecommendedSongs = data => ({type: REMOVE_RECOMMENDATIONS, data})
+
 /**
  * THUNK CREATORS
  */
+
+export const removeRecommendations = id => dispatch => {
+  try {
+    dispatch(removeRecommendedSongs(id))
+  } catch (error) {
+    console.log('oh no, error!')
+  }
+}
+
 export const fetchRecentlyPlayed = () => async dispatch => {
   try {
     const res = await axios.get('api/spotify/recently-played')
@@ -34,10 +46,10 @@ export const fetchRecentlyPlayed = () => async dispatch => {
   }
 }
 
-export const fetchRecommendations = () => async dispatch => {
+export const fetchRecommendations = id => async dispatch => {
   try {
-    const res = await axios.get('api/spotify/recommendations')
-    dispatch(getRecommendations(res.data))
+    const res = await axios.get(`api/spotify/recommendations?track_id=${id}`)
+    dispatch(getRecommendations(res.data.tracks))
   } catch (err) {
     console.error(err)
   }
@@ -51,7 +63,9 @@ export default function(state = defaultSpotify, action) {
     case GET_RECENTLY_PLAYED:
       return {...state, recentlyPlayed: action.data}
     case GET_RECOMMENDATIONS:
-      return {...state, recommendationsPlayed: action.data}
+      return {...state, songsRecommended: action.data}
+    case REMOVE_RECOMMENDATIONS:
+      return {...state, songsRecommended: []}
     default:
       return state
   }

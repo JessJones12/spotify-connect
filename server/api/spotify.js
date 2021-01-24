@@ -61,7 +61,9 @@ router.get('/recommendations', async (req, res, next) => {
     }
 
     const spotifyResponse = await axios.get(
-      `https://api.spotify.com/v1/recommendations?seed_tracks=${id}`,
+      `https://api.spotify.com/v1/recommendations?seed_tracks=${
+        req.query.track_id
+      }`,
       config
     )
     res.send(spotifyResponse.data)
