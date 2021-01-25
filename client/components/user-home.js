@@ -1,7 +1,15 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Card, CardColumns, CardDeck, Container, Row, Col} from 'react-bootstrap'
+import {
+  Card,
+  CardColumns,
+  CardDeck,
+  Container,
+  Row,
+  Col,
+  Alert
+} from 'react-bootstrap'
 import {
   me,
   fetchRecentlyPlayed,
@@ -20,8 +28,8 @@ class UserHome extends React.Component {
 
     this.clickAlbum = this.clickAlbum.bind(this)
   }
-  async clickAlbum(id) {
-    await this.props.getRecommendations(id)
+  async clickAlbum(track) {
+    await this.props.getRecommendations(track)
   }
 
   async componentDidMount() {
@@ -40,9 +48,19 @@ class UserHome extends React.Component {
     return (
       <Container fluid>
         {this.props.spotify.songsRecommended.length > 0 ? (
-          <div>
-            {' '}
-            Recommendations just for you, {spotifyUsername}!
+          <div className="recommendations">
+            <Row className="justify-content-md-center">
+              <h1 className="clickOnAlbum">
+                Click on any album cover for song recommendations.<Badge variant="secondary">
+                  New
+                </Badge>{' '}
+              </h1>
+            </Row>{' '}
+            🎸 Just for you, {spotifyUsername}! 🎸
+            <Alert variant="success">
+              Recommendations based on "{this.props.spotify.clickedTrack.name}"
+              by {this.props.spotify.clickedTrack.artists[0].name}
+            </Alert>
             <Row>
               <Button
                 variant="outline-success"
@@ -68,17 +86,23 @@ class UserHome extends React.Component {
                     style={{padding: '15px'}}
                   >
                     <Card style={{width: '25rem'}}>
-                      <Card.Header>{track.album.artists[0].name}</Card.Header>
+                      <Card.Header className="titleOfTrack">
+                        {track.album.artists[0].name}
+                      </Card.Header>
                       <Card.Img
                         className="click-area"
                         src={track.album.images[1].url}
                         onClick={() => {
-                          this.clickAlbum(track.id)
+                          this.clickAlbum(track)
                         }}
                       />
                       <Card.Body>
-                        <Card.Title>{track.album.name}</Card.Title>
-                        <Card.Text>{track.name}</Card.Text>
+                        <Card.Title className="titleOfTrack">
+                          {track.album.name}
+                        </Card.Title>
+                        <Card.Text className="titleOfTrack">
+                          {track.name}
+                        </Card.Text>
                         <audio controls>
                           <source src={track.preview_url} type="audio/ogg" />
                           <source src={track.preview_url} type="audio/mpeg" />
@@ -99,17 +123,19 @@ class UserHome extends React.Component {
         ) : (
           <div>
             <Row className="justify-content-md-center">
-              <h3>Welcome, {spotifyUsername}</h3>
+              <h3 className="welcome">Welcome, {spotifyUsername}</h3>
             </Row>
             <Row className="justify-content-md-center">
-              <h1>Your Recently Played Songs</h1>
+              <h1 className="clickOnAlbum">
+                Click on any album cover for song recommendations.<Badge variant="secondary">
+                  New
+                </Badge>{' '}
+              </h1>
             </Row>
             <Row className="justify-content-md-center">
-              <h6>
-                Click on any album cover for song recommends based on the tracks
-                you love <Badge variant="secondary">New</Badge>{' '}
-              </h6>
+              <h6 className="recentlyPlayed">Your Recently Played Songs</h6>
             </Row>
+
             <Row className="justify-content-md-center ">
               {this.props.spotify.recentlyPlayed.items.map(item => {
                 const date = new Date(item.played_at).toLocaleString('en-US')
@@ -129,7 +155,7 @@ class UserHome extends React.Component {
                       <Card.Img
                         className="click-area"
                         onClick={() => {
-                          this.clickAlbum(item.track.id)
+                          this.clickAlbum(item.track)
                         }}
                         variant="top"
                         src={item.track.album.images[0].url}
@@ -181,8 +207,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData: () => dispatch(me()),
     loadRecentlyPlayed: () => dispatch(fetchRecentlyPlayed()),
-    getRecommendations: id => {
-      dispatch(fetchRecommendations(id))
+    getRecommendations: track => {
+      dispatch(fetchRecommendations(track))
     },
     removeRecommendedSongs: id => {
       dispatch(removeRecommendations(id))

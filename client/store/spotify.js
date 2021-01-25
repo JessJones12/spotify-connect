@@ -13,6 +13,7 @@ const REMOVE_RECOMMENDATIONS = 'REMOVE_RECOMMENDATIONS'
  */
 const defaultSpotify = {
   recentlyPlayed: {items: []},
+  clickedTrack: {},
   songsRecommended: []
 }
 
@@ -46,10 +47,17 @@ export const fetchRecentlyPlayed = () => async dispatch => {
   }
 }
 
-export const fetchRecommendations = id => async dispatch => {
+export const fetchRecommendations = track => async dispatch => {
   try {
-    const res = await axios.get(`api/spotify/recommendations?track_id=${id}`)
-    dispatch(getRecommendations(res.data.tracks))
+    const res = await axios.get(
+      `api/spotify/recommendations?track_id=${track.id}`
+    )
+    dispatch(
+      getRecommendations({
+        clickedTrack: track,
+        recommendedSongs: res.data.tracks
+      })
+    )
   } catch (err) {
     console.error(err)
   }
@@ -63,9 +71,13 @@ export default function(state = defaultSpotify, action) {
     case GET_RECENTLY_PLAYED:
       return {...state, recentlyPlayed: action.data}
     case GET_RECOMMENDATIONS:
-      return {...state, songsRecommended: action.data}
+      return {
+        ...state,
+        clickedTrack: action.data.clickedTrack,
+        songsRecommended: action.data.recommendedSongs
+      }
     case REMOVE_RECOMMENDATIONS:
-      return {...state, songsRecommended: []}
+      return {...state, clickedTrack: {}, songsRecommended: []}
     default:
       return state
   }

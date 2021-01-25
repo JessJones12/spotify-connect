@@ -7,6 +7,10 @@ label {
   font: 1rem 'Fira Sans', sans-serif;
 }
 
+body {
+  background-color: rgb(15, 14, 14);
+}
+
 input,
 label {
   margin: 0.4rem 0;
@@ -18,4 +22,56 @@ label {
 
 .d-block {
   width: 20%;
+}
+
+.login {
+  color: white;
+}
+
+.mainTitle {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  padding-top: 50px;
+}
+
+.subTitle {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  color: white;
+}
+
+.recommendations {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  color: white;
+}
+
+.recentlyPlayed {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+
+  font-size: 17px;
+  text-align: center;
+  color: white;
+}
+
+.clickOnAlbum {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+}
+
+.welcome {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+}
+
+.titleOfTrack {
+  color: black;
 }
