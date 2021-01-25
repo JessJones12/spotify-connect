@@ -10,6 +10,7 @@ import {
 } from '../store'
 import {Button} from 'react-bootstrap'
 import {useHistory} from 'react-router-dom'
+import Badge from 'react-bootstrap/Badge'
 /**
  * COMPONENT
  */
@@ -54,38 +55,46 @@ class UserHome extends React.Component {
                 Back to Recently Played 🎧
               </Button>
             </Row>
-            {this.props.spotify.songsRecommended.map(track => {
-              return (
-                <Col
-                  xs="auto"
-                  sm="auto"
-                  md="auto"
-                  lg="auto"
-                  xl="auto"
-                  key={track.played_at}
-                  style={{padding: '15px'}}
-                >
-                  <Card style={{maxWidth: '25rem'}}>
-                    <Card.Header>{track.album.artists[0].name}</Card.Header>
-                    <Card.Img src={track.album.images[1].url} />
-                    <Card.Body>
-                      <Card.Title>{track.album.name}</Card.Title>
-                      <Card.Text>{track.name}</Card.Text>
-                      <audio controls>
-                        <source src={track.preview_url} type="audio/ogg" />
-                        <source src={track.preview_url} type="audio/mpeg" />
-                        Your browser does not support the audio tag.
-                      </audio>
-                    </Card.Body>
-                    <Card.Footer>
-                      <small className="text-muted">
-                        Add to my Liked songs{' '}
-                      </small>
-                    </Card.Footer>
-                  </Card>
-                </Col>
-              )
-            })}
+            <Row className="justify-content-md-center ">
+              {this.props.spotify.songsRecommended.map(track => {
+                return (
+                  <Col
+                    xs="auto"
+                    sm="auto"
+                    md="auto"
+                    lg="auto"
+                    xl="auto"
+                    key={track.played_at}
+                    style={{padding: '15px'}}
+                  >
+                    <Card style={{width: '25rem'}}>
+                      <Card.Header>{track.album.artists[0].name}</Card.Header>
+                      <Card.Img
+                        className="click-area"
+                        src={track.album.images[1].url}
+                        onClick={() => {
+                          this.clickAlbum(track.id)
+                        }}
+                      />
+                      <Card.Body>
+                        <Card.Title>{track.album.name}</Card.Title>
+                        <Card.Text>{track.name}</Card.Text>
+                        <audio controls>
+                          <source src={track.preview_url} type="audio/ogg" />
+                          <source src={track.preview_url} type="audio/mpeg" />
+                          Your browser does not support the audio tag.
+                        </audio>
+                      </Card.Body>
+                      <Card.Footer>
+                        <small className="text-muted">
+                          Add to my Liked songs{' '}
+                        </small>
+                      </Card.Footer>
+                    </Card>
+                  </Col>
+                )
+              })}
+            </Row>
           </div>
         ) : (
           <div>
@@ -93,7 +102,13 @@ class UserHome extends React.Component {
               <h3>Welcome, {spotifyUsername}</h3>
             </Row>
             <Row className="justify-content-md-center">
-              <h2>Your Recently Played Songs!</h2>
+              <h1>Your Recently Played Songs</h1>
+            </Row>
+            <Row className="justify-content-md-center">
+              <h6>
+                Click on any album cover for song recommends based on the tracks
+                you love <Badge variant="secondary">New</Badge>{' '}
+              </h6>
             </Row>
             <Row className="justify-content-md-center ">
               {this.props.spotify.recentlyPlayed.items.map(item => {
@@ -109,9 +124,10 @@ class UserHome extends React.Component {
                     key={item.played_at}
                     style={{padding: '15px'}}
                   >
-                    <Card style={{maxWidth: '25rem'}}>
+                    <Card style={{width: '25rem'}}>
                       <Card.Header>{item.track.artists[0].name}</Card.Header>
                       <Card.Img
+                        className="click-area"
                         onClick={() => {
                           this.clickAlbum(item.track.id)
                         }}

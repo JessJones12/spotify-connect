@@ -11,3 +11,11 @@ input,
 label {
   margin: 0.4rem 0;
 }
+
+.click-area {
+  cursor: pointer;
+}
+
+.d-block {
+  width: 20%;
+}
