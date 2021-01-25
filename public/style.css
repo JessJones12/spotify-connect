@@ -27,13 +27,16 @@ label {
 .login {
   color: white;
 }
+.picture {
+  padding: 50px;
+}
 
 .mainTitle {
   font-family: Circular, Helvetica, Arial, sans-serif;
   font-size: 32px;
   text-align: center;
   color: white;
-  padding-top: 50px;
+  padding-top: 100px;
 }
 
 .subTitle {
@@ -41,6 +44,7 @@ label {
   font-size: 17px;
   text-align: center;
   color: white;
+  padding-bottom: 50px;
 }
 
 .recommendations {
@@ -52,6 +56,7 @@ label {
 
 .recentlyPlayed {
   font-family: Circular, Helvetica, Arial, sans-serif;
+  padding-bottom: 50px;
 
   font-size: 17px;
   text-align: center;
@@ -65,13 +70,26 @@ label {
   color: white;
 }
 
+.clickOnAlbumOne {
+  font-family: Circular, Helvetica, Arial, sans-serif;
+  font-size: 32px;
+  text-align: center;
+  color: white;
+  padding-top: 100px;
+}
+
 .welcome {
   font-family: Circular, Helvetica, Arial, sans-serif;
   font-size: 20px;
   text-align: center;
   color: white;
+  padding-top: 100px;
 }
 
 .titleOfTrack {
   color: black;
+}
+
+.banner {
+  padding: 75px;
 }

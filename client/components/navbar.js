@@ -13,7 +13,7 @@ const Navigationbar = ({handleClick, isLoggedIn}) => (
         {isLoggedIn ? (
           <>
             {/* The navbar will show these links after you log in */}
-            <Nav.Link to="home">Home</Nav.Link>
+            <Nav.Link to="home">About</Nav.Link>
             <Nav.Link href="#" onClick={handleClick}>
               Logout
             </Nav.Link>
@@ -21,8 +21,8 @@ const Navigationbar = ({handleClick, isLoggedIn}) => (
         ) : (
           <>
             {/* The navbar will show these links before you log in */}
-            <Nav.Link to="/login">Login</Nav.Link>
-            <Nav.Link to="/signup">Sign Up</Nav.Link>
+
+            <Nav.Link to="/signup">Our Mission</Nav.Link>
           </>
         )}
       </Nav>

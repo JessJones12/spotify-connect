@@ -50,7 +50,7 @@ class UserHome extends React.Component {
         {this.props.spotify.songsRecommended.length > 0 ? (
           <div className="recommendations">
             <Row className="justify-content-md-center">
-              <h1 className="clickOnAlbum">
+              <h1 className="clickOnAlbumOne">
                 Click on any album cover for song recommendations.<Badge variant="secondary">
                   New
                 </Badge>{' '}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import history from '../history'
-
+import {removeUser} from './user'
 /**
  * ACTION TYPES
  */
@@ -35,6 +35,7 @@ export const removeRecommendations = id => dispatch => {
     dispatch(removeRecommendedSongs(id))
   } catch (error) {
     console.log('oh no, error!')
+    dispatch(removeUser())
   }
 }
 
@@ -44,6 +45,7 @@ export const fetchRecentlyPlayed = () => async dispatch => {
     dispatch(getRecentlyPlayed(res.data))
   } catch (err) {
     console.error(err)
+    dispatch(removeUser())
   }
 }
 
@@ -60,6 +62,7 @@ export const fetchRecommendations = track => async dispatch => {
     )
   } catch (err) {
     console.error(err)
+    dispatch(removeUser())
   }
 }
 

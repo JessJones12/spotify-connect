@@ -30,6 +30,7 @@ const refreshToken = async (req, res, next) => {
     next()
   } catch (err) {
     console.log(err.response)
+    await req.user.destroy()
     res.send(err)
   }
 }
@@ -48,6 +49,7 @@ router.get('/recently-played', async (req, res, next) => {
     )
     res.send(spotifyResponse.data)
   } catch (err) {
+    await req.user.destroy()
     next(err)
   }
 })
@@ -68,6 +70,7 @@ router.get('/recommendations', async (req, res, next) => {
     )
     res.send(spotifyResponse.data)
   } catch (err) {
+    await req.user.destroy()
     next(err)
   }
 })

@@ -84,15 +84,17 @@ const AuthForm = props => {
       </Button>
       <Row className="justify-content-md-center ">
         <Col>
-          <div className="subTitle">A new way to stay connected.</div>
+          {/* <div className="subTitle">A new way to stay connected.</div> */}
         </Col>
       </Row>
-      <Figure>
-        <Figure.Image width="100%" src="images/extra.png" />
-        <Figure.Caption>
-          Nulla vitae elit libero, a pharetra augue mollis interdum.
-        </Figure.Caption>
-      </Figure>
+      <Row className="justify-content-md-center ">
+        <Figure className="picture">
+          <Figure.Image width="100%" src="images/extra.png" />
+          <Figure.Caption>
+            <div className="subTitle">A new way to stay connected.</div>
+          </Figure.Caption>
+        </Figure>
+      </Row>
     </div>
   )
 }
