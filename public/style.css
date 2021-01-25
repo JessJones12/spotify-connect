@@ -26,6 +26,7 @@ label {
 
 .login {
   color: white;
+  object-fit: cover;
 }
 .picture {
   padding: 50px;
@@ -92,4 +93,8 @@ label {
 
 .banner {
   padding: 75px;
+}
+
+img {
+  object-fit: cover;
 }
